@@ -1,0 +1,58 @@
+.tableRow {
+    font-family:Nunito Sans;
+    font-weight:400px;
+    background-color:#fff;
+    :hover{
+        background-color:#fff5cd !important;
+        color:#302b48;
+        td .button {
+            background-color: #8199cd;
+            color: #fff;
+        }
+        .folder {
+            color: #8199cd;
+            :hover{
+                color: #8199cd; 
+            }
+        }
+    }
+    tr{
+        th{
+            padding: unset !important;
+        }
+        td{
+            padding: unset !important;
+        }
+    }
+}
+.tableHead {
+    color:blue;
+    .formControl{
+        color:yellow;
+        .select{
+            margin-top:-3px;
+            div {
+                div {
+                    color: #fff;
+                    border: 2px solid #8199cd;
+                    border-radius: unset;    
+                    padding:0px 20px 1px 1px;
+                }
+        }
+        }
+    }
+    form {
+        .AddCustomerForm {
+            .AddCustomerTextField{
+                input{
+                    background-color: red !important;
+                    color:red,
+                }
+            }
+        }
+    }
+    th{
+        height: 45px !important;
+        padding: 5px !important;
+    }
+}
