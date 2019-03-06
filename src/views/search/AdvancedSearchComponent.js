@@ -18,6 +18,7 @@ class AdvancedSearchComponent extends Component {
 
   state = {
     firstQueryDone: false,
+    errorFetching: false,
     hasMore: true,
     start,
     itemsPerPage,
@@ -116,16 +117,17 @@ class AdvancedSearchComponent extends Component {
       .then(async response => {
         if (response.status === 200) {
           const beers = await response.json()
-          this.setState({ hasMore: beers.length >= 0 })
+          this.setState({ hasMore: beers.length >= 0, errorFetching: false })
           if (isLoadingMore) {
             this.setState({ beers: [...this.state.beers, ...beers] })
           } else {
             this.setState({ beers })
           }
         } else {
-          //error occured here notify user of it.
+          this.setState({ errorFetching: true })
         }
       })
+      .catch(err => this.setState({ errorFetching: true }))
   }
 
   fetchMoreData = () => {
@@ -160,7 +162,16 @@ class AdvancedSearchComponent extends Component {
           next={this.fetchMoreData}
           hasMore={this.state.firstQueryDone ? this.state.hasMore : false}
           className={classes.searchResults}
-          loader={<h4>Loading...</h4>}
+          loader={this.state.errorFetching ? (
+            <div
+              style={{ gridColumn: '1/-1' }}
+            >
+              Error loading beers
+            </div>
+          ) : (
+              <h4>Loading...</h4>
+            )
+          }
         >
           {this.state.beers.map((beer, index) => (
             <BeerDetails

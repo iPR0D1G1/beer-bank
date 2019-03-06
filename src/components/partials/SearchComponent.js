@@ -128,7 +128,7 @@ class SearchComponent extends Component {
                 {this.state.loading ? (
                   <CircularProgress className={classes.progress} color="secondary" size={12} />
                 ) : (
-                    <SearchIcon fontSize='14' className={classes.searchIcon} />
+                    <SearchIcon fontSize='small' className={classes.searchIcon} />
                   )}
               </div>
             }}

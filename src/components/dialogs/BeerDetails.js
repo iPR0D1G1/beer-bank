@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames'
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
+import Scrollbar from 'react-scrollbars-custom';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import { BeerDetailsComponentStyle } from './../../styles/js'
 import { withStyles, IconButton, Typography, Divider } from '@material-ui/core';
 import Clear from '@material-ui/icons/Clear'
 import ItemBeerSimple from '../beer_item/ItemBeerSimple';
+import { connect } from 'react-redux'
 
 class ResponsiveDialog extends React.Component {
   state = {
@@ -25,8 +24,14 @@ class ResponsiveDialog extends React.Component {
     this.setState({ open: false });
   };
 
+  getRandomInt = (min, max) => {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
   render() {
-    const { fullScreen, classes, beer } = this.props;
+    const { fullScreen, classes, beer, beers } = this.props;
 
     return (
       <div>
@@ -139,7 +144,7 @@ class ResponsiveDialog extends React.Component {
                 </Typography>
               <div className={classes.bottomRow}>
                 {[1, 2, 3,].map(key => (
-                  <ItemBeerSimple />
+                  <ItemBeerSimple beer={beers[this.getRandomInt(0, beers.length - 1)]} />
                 ))}
               </div>
 
@@ -157,4 +162,10 @@ ResponsiveDialog.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
-export default withStyles(BeerDetailsComponentStyle)(withMobileDialog()(ResponsiveDialog));
+const mapStateToProps = state => ({
+  beers: state.beersState.beers,
+})
+
+export default connect(mapStateToProps)(
+  withStyles(BeerDetailsComponentStyle)(withMobileDialog()(ResponsiveDialog))
+)

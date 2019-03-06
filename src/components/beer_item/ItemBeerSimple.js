@@ -20,12 +20,12 @@ class ItemBeerSimple extends Component {
     }
 
     render() {
-        const { classes, isFavourited, onClick, ...rest } = this.props;
+        const { classes, isFavourited, onClick, beer, ...rest } = this.props;
         return (
             <div className={classes.wrapper}>
                 <img
-                    src="https://images.punkapi.com/v2/192.png"
-                    alt="beer image"
+                    src={beer.image_url}
+                    alt={`${beer.name} ${beer.tagline}`}
                     className={classes.beerImage}
                 />
                 <Typography
@@ -35,7 +35,7 @@ class ItemBeerSimple extends Component {
                     className={classes.beerName}
                     align='center'
                 >
-                    Blushy beer
+                    {beer.name}
                 </Typography>
             </div>
         );

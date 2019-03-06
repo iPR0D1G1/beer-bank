@@ -24,9 +24,12 @@ class HomeComponent extends Component {
     start,
     itemsPerPage,
     beers: [],
+    hasMore: true,
+    firstLoadDone: false,
+    errorFetching: false,
   }
 
-  getBeers = (isLoadingMore = true) => {
+  getBeers = (isLoadingMore = false) => {
     let object = {
       page: this.state.start,
       perPage: this.state.itemsPerPage,
@@ -42,16 +45,20 @@ class HomeComponent extends Component {
     BeersService.getBeers(object)
       .then(async response => {
         if (response.status !== 200) {
-          //error getting products. notify user here
+          this.setState({ firstLoadDone: true, errorFetching: true })
           return
         }
-        const responseData = await response.json()
-        const { beers } = this.state
-        this.setState({ beers: [...beers, ...responseData] })
-        this.props.onNewBeers(responseData)
+        const beers = await response.json()
+        this.setState({ hasMore: beers.length >= 0, firstLoadDone: true, errorFetching: false })
+        if (isLoadingMore) {
+          this.props.onNewBeers(beers)
+        } else {
+          this.props.onReplaceAllBeers(beers)
+        }
       })
-    if (!isLoadingMore) {
-      this.setState({ beers: this.props.beers })
+      .catch(err => this.setState({ firstLoadDone: true, errorFetching: true }))
+    if (!isLoadingMore && this.props.beers) {
+      this.setState({ beers: this.props.beers, firstLoadDone: true, })
     }
   }
 
@@ -71,34 +78,48 @@ class HomeComponent extends Component {
 
   render() {
     const { classes } = this.props;
-    const { start, itemsPerPage } = this.state
+    const { start, itemsPerPage, beers, hasMore } = this.state
     // const totalItems = ( start + 1) * itemsPerPage
 
     return (
       <Fragment>
         <HeaderMinimalSearch />
         <InfiniteScroll
-          dataLength={218}
-          next={this.getBeers}
-          hasMore={true}
+          dataLength={hasMore ? beers.length + 1 : beers.length}
+          next={() => {
+            console.log('fetching more')
+            this.getBeers(true)
+          }}
+          hasMore={this.state.firstLoadDone ? this.state.hasMore : false}
           className={classes.beerList}
-          loader={<h4>Loading...</h4>}
+          loader={this.state.errorFetching ? (
+            <div
+              style={{ gridColumn: '1/-1' }}
+            >
+              Error loading beers
+            </div>
+          ) : (
+              <h4>Loading...</h4>
+            )
+          }
         >
-          {this.state.beers.map((beer, index) => (
-            <BeerDetails
-              key={beer.id}
-              beer={beer}
-              trigger={(onTrigger, beer) => (
-                <ItemBeerCard
-                  beer={beer}
-                  onClick={onTrigger}
-                  onStarClicked={this.onFavourite}
-                />
-              )}
-            />
-          ))}
-        </InfiniteScroll>
-      </Fragment>
+          {
+            this.state.beers.map((beer, index) => (
+              <BeerDetails
+                key={beer.id}
+                beer={beer}
+                trigger={(onTrigger, beer) => (
+                  <ItemBeerCard
+                    beer={beer}
+                    onClick={onTrigger}
+                    onStarClicked={this.onFavourite}
+                  />
+                )}
+              />
+            ))
+          }
+        </InfiniteScroll >
+      </Fragment >
     );
   }
 }

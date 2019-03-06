@@ -48,7 +48,7 @@ class AdvancedSearchComponent extends Component {
                             <Typography
                                 className={classNames(
                                     classes.fullWidth,
-                                    classes.marquee,
+                                    classes.fade,
                                 )}
                                 variant='h4'
                                 color='secondary'

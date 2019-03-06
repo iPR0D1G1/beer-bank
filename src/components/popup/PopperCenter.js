@@ -59,7 +59,7 @@ class PopperCenter extends Component {
           }}
           anchorEl={anchorEl}
           transition
-          placement={'bottom-center'}
+          placement={'bottom'}
         >
           {({ TransitionProps }) => (
             <ClickAwayListener onClickAway={this.handleClickAway}>

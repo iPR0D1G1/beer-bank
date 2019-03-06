@@ -94,5 +94,20 @@ export default theme => ({
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+    },
+    fade: {
+        // position: 'relative',
+        height: '2.4em',
+        overflow: 'hidden',             
+        '&:after': {
+            content: "",
+            textAlign: 'right',
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            width: '70%',
+            height: '1.2em',
+            background: 'linear - gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50 %)',
+        },
     }
 })

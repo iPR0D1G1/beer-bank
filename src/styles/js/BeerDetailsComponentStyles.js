@@ -29,7 +29,10 @@ export default theme => ({
     },
     scrollPaper: {
         maxHeight: 'unset',
-        maxWidth: '525px',
+        maxWidth: '519px',
+        [theme.breakpoints.up('sm')]: {
+            maxHeight: 762,
+        },
     },
     content: {
         padding: `0px ${theme.spacing.unit * 2.3}px ${theme.spacing.unit * 2.3}px ${theme.spacing.unit * 2.3}px`,
@@ -80,6 +83,12 @@ export default theme => ({
         gridTemplateColumns: 'repeat( 3, 150px) ',
         gridColumnGap: `${theme.spacing.unit * 2}px`,
         overflowX: 'auto',
+        [theme.breakpoints.down('xs')]: {
+            overflow: '-moz-scrollbars-none',
+            '&::-webkit-scrollbar': {
+                width: '0 !important',
+            },
+        },
     },
     gridRow: {
         display: 'flex',
