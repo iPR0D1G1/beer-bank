@@ -45,8 +45,10 @@ export default theme => ({
     },
     beerImage: {
         maxHeight: 433,
-        maxWidth: 112,
-        objectFit: 'cover',
+        [theme.breakpoints.down('xs')]: {
+            maxWidth: 112,
+            objectFit: 'cover',
+        },
     },
     beerDetails: {
         flexGrow: 1,
