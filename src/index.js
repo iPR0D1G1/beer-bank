@@ -8,13 +8,13 @@ import { MuiThemeProvider } from "@material-ui/core"
 import * as serviceWorker from './serviceWorker'
 import "./styles/css/main.scss"
 import 'typeface-roboto'
-import { BrowserRouter } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom'
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from 'material-ui-pickers';
 
 ReactDOM.render(
-  <BrowserRouter
-    basename={`/`}
+  <HashRouter
+  // basename={`/`}
   >
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <MuiThemeProvider theme={theme}>
@@ -23,7 +23,7 @@ ReactDOM.render(
         </ReduxProvider>
       </MuiThemeProvider>
     </MuiPickersUtilsProvider>
-  </BrowserRouter>
+  </HashRouter>
   , document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
