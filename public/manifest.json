@@ -3,8 +3,9 @@
   "name": "Turingly front end developer entrance test",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "Beer-icon.png",
+      "sizes": "144x144 64x64 32x32 24x24 16x16",
+      "purpose": "any",
       "type": "image/x-icon"
     }
   ],

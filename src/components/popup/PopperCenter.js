@@ -12,6 +12,15 @@ const styles = theme => ({
     borderRadius: 4,
     top: 10,
     position: 'relative',
+  },
+  popper: {
+    position: 'realtive',
+    top: 20,
+    [theme.breakpoints.down('xs')]: {
+      position: 'fixed !important',
+      top: '118px !important',
+      transform: 'translateX(5px) !important',
+    }
   }
 });
 
@@ -53,10 +62,7 @@ class PopperCenter extends Component {
         <Popper
           id={id}
           open={open}
-          style={{
-            position: 'realtive',
-            top: 20,
-          }}
+          className={classes.popper}
           anchorEl={anchorEl}
           transition
           placement={'bottom'}
