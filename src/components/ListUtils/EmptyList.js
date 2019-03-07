@@ -20,9 +20,9 @@ class EmptyList extends Component {
 
 
     render() {
-        const { primaryText, secondaryText, classes } = this.props
+        const { primaryText, secondaryText, classes, classNames } = this.props
         return (
-            <div className={classes.root}>
+            <div className={`${classes.root} ${classNames && classNames.root}`}>
                 <span>{primaryText}</span>
                 <span
                     style={{

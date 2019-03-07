@@ -21,5 +21,8 @@ export default theme => ({
             gridTemplateColumns: "repeat(1, 300px)",
             gridAutoRows: '300px',
         },
-    }
+    },
+    gridRow: {
+        gridColumn: '1/-1',
+    },
 })

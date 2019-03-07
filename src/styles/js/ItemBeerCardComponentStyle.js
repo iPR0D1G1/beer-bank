@@ -24,6 +24,10 @@ export default theme => ({
         '&:hover $btnFavourite': {
             bottom: 271,
             right: -111,
+            [theme.breakpoints.down('xs')]: {
+                right: -133,
+                bottom: 314,
+            }
         },
     },
     container: {
@@ -83,6 +87,10 @@ export default theme => ({
     btnFavourite: {
         bottom: 255,
         right: -105,
+        [theme.breakpoints.down('xs')]: {
+            right: -127,
+            bottom: 300,
+        }
     },
     btnStar: {
         transitionDuration: 300,
@@ -98,7 +106,7 @@ export default theme => ({
     fade: {
         // position: 'relative',
         height: '2.4em',
-        overflow: 'hidden',             
+        overflow: 'hidden',
         '&:after': {
             content: "",
             textAlign: 'right',

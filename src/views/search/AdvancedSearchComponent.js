@@ -9,6 +9,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { BeersService } from './../../services/api'
 import { newSearchFave, newUnFave } from './../../actions/beers/Index'
 import { connect } from 'react-redux'
+import { EmptyList } from '../../components/ListUtils';
 
 var itemsPerPage = 15;
 var start = 1;
@@ -163,11 +164,10 @@ class AdvancedSearchComponent extends Component {
           hasMore={this.state.firstQueryDone ? this.state.hasMore : false}
           className={classes.searchResults}
           loader={this.state.errorFetching ? (
-            <div
-              style={{ gridColumn: '1/-1' }}
-            >
-              Error loading beers
-            </div>
+            <EmptyList
+              primaryText="Error loading beers..."
+              classNames={{ root: classes.gridRow}}
+            />
           ) : (
               <h4>Loading...</h4>
             )

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames'
 import Dialog from '@material-ui/core/Dialog';
@@ -11,7 +11,7 @@ import Clear from '@material-ui/icons/Clear'
 import ItemBeerSimple from '../beer_item/ItemBeerSimple';
 import { connect } from 'react-redux'
 
-class ResponsiveDialog extends React.Component {
+class ResponsiveDialog extends Component {
   state = {
     open: false,
   };
@@ -142,12 +142,17 @@ class ResponsiveDialog extends React.Component {
               >
                 You might also like:
                 </Typography>
-              <div className={classes.bottomRow}>
-                {[1, 2, 3,].map(key => (
-                  <ItemBeerSimple beer={beers[this.getRandomInt(0, beers.length - 1)]} />
-                ))}
-              </div>
-
+              {/* <Scrollbar> */}
+                <div className={classes.bottomRow}>
+                  {[1, 2, 3,].map(key => (
+                    <Fragment>
+                      {beers && (
+                        <ItemBeerSimple beer={beers[this.getRandomInt(0, beers.length - 1)]} />
+                      )}
+                    </Fragment>
+                  ))}
+                </div>
+              {/* </Scrollbar> */}
 
             </div>
 
