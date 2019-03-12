@@ -14,7 +14,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { ItemBeerCard } from '../../components/beer_item';
 import { BeerDetails } from '../../components/dialogs';
 import { HomeComponentStyle } from './../../styles/js'
-import { EmptyList } from '../../components/ListUtils';
+import { EmptyList, ListLoading } from '../../components/ListUtils';
 
 var itemsPerPage = 15;
 var start = 1;
@@ -96,10 +96,10 @@ class HomeComponent extends Component {
           loader={this.state.errorFetching ? (
             <EmptyList
               primaryText="Error loading beers..."
-              classNames={{ root: classes.gridRow}}
+              classNames={{ root: classes.gridRow }}
             />
           ) : (
-              <h4>Loading...</h4>
+              <ListLoading />
             )
           }
         >

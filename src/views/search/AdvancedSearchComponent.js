@@ -9,7 +9,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { BeersService } from './../../services/api'
 import { newSearchFave, newUnFave } from './../../actions/beers/Index'
 import { connect } from 'react-redux'
-import { EmptyList } from '../../components/ListUtils';
+import { EmptyList, ListLoading } from '../../components/ListUtils';
 
 var itemsPerPage = 15;
 var start = 1;
@@ -20,7 +20,7 @@ class AdvancedSearchComponent extends Component {
   state = {
     firstQueryDone: false,
     errorFetching: false,
-    hasMore: true,
+    hasMore: false,
     start,
     itemsPerPage,
     searchParameters: {},
@@ -63,8 +63,20 @@ class AdvancedSearchComponent extends Component {
   timeout;
 
   generateSearchQuery = ignored => {
+    console.log('here')
     const { searchParameters } = this.state
-    return Object.keys(searchParameters).reduce((acc, key) => `${acc}&${key}=${searchParameters[key]}`, '')
+    return Object.keys(searchParameters).reduce((acc, key) => {
+      let value = searchParameters[key]
+      if (value && value !== null && value !== '' && value !== undefined) {
+        if (key === 'name') {
+          const splits = searchParameters[key].split(' ')
+          if (splits.length > 1)
+            value = splits.join('_')
+        }
+        return `${acc}&${key}=${value}`
+      }
+      return acc
+    }, '')
   }
 
   handleChange = fieldname => event => {
@@ -118,11 +130,12 @@ class AdvancedSearchComponent extends Component {
       .then(async response => {
         if (response.status === 200) {
           const beers = await response.json()
-          this.setState({ hasMore: beers.length >= 0, errorFetching: false })
           if (isLoadingMore) {
-            this.setState({ beers: [...this.state.beers, ...beers] })
+            console.log({ length: beers.length, itemsPerPage, hasmore: beers.length >= itemsPerPage })
+            this.setState({ beers: [...this.state.beers, ...beers], hasMore: beers.length >= itemsPerPage, errorFetching: false })
           } else {
-            this.setState({ beers })
+            console.log({ length: beers.length, itemsPerPage, hasmore: beers.length >= itemsPerPage })
+            this.setState({ beers, hasMore: beers.length >= itemsPerPage, errorFetching: false })
           }
         } else {
           this.setState({ errorFetching: true })
@@ -166,17 +179,42 @@ class AdvancedSearchComponent extends Component {
           loader={this.state.errorFetching ? (
             <EmptyList
               primaryText="Error loading beers..."
-              classNames={{ root: classes.gridRow}}
+              classNames={{ root: classes.gridRow }}
             />
           ) : (
-              <h4>Loading...</h4>
+              <ListLoading />
             )
+          }
+          endMessage={
+            this.state.firstQueryDone ? (
+              <Fragment>
+                {this.state.beers.length === 0 ? (
+                  <EmptyList
+                    secondaryText='Try searching with a different keyword'
+                    primaryText="Ooops!! no beers found..."
+                    classNames={{ root: classes.gridRow }}
+                  />
+                ) : (
+                    <EmptyList
+                      primaryText="All beers loaded..."
+                      classNames={{ root: classes.gridRow }}
+                    />
+                  )
+                }
+              </Fragment>
+            ) : (
+                <EmptyList
+                  primaryText="Enter text to search for beers..."
+                  classNames={{ root: classes.gridRow }}
+                />
+              )
           }
         >
           {this.state.beers.map((beer, index) => (
             <BeerDetails
               key={beer.id}
               beer={beer}
+              beers={this.state.beers}
               trigger={(onTrigger, beer) => (
                 <ItemBeerCard
                   onClick={onTrigger}

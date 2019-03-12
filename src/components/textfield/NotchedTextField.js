@@ -40,7 +40,7 @@ const styles = theme => ({
 
 class NotchedTextField extends React.Component {
     render() {
-        const { classes, InputProps, classNames, ...rest } = this.props
+        const { classes, InputProps, classNames, InputLabelProps, ...rest } = this.props
         return (
             <TextField
                 {...rest}
@@ -59,7 +59,8 @@ class NotchedTextField extends React.Component {
                         root: classes.cssLabel,
                         focused: classes.cssLabelFocused,
                         shrink: classes.cssShrinkFocused
-                    }
+                    },
+                    ...InputLabelProps
                 }}
             />
         )

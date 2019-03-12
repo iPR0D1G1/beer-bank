@@ -53,6 +53,9 @@ class HeaderAdavancedSearchComponent extends Component {
             label={fieldData[key].label}
             type={fieldData[key].type}
             min={0}
+            InputLabelProps={{
+              shrink: true
+            }}
             name={key}
             onChange={onChange(key)}
             classNames={{

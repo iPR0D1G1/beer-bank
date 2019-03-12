@@ -1,4 +1,4 @@
-import React, {Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames'
 import Dialog from '@material-ui/core/Dialog';
@@ -143,15 +143,15 @@ class ResponsiveDialog extends Component {
                 You might also like:
                 </Typography>
               {/* <Scrollbar> */}
-                <div className={classes.bottomRow}>
-                  {[1, 2, 3,].map(key => (
-                    <Fragment>
-                      {beers && (
-                        <ItemBeerSimple beer={beers[this.getRandomInt(0, beers.length - 1)]} />
-                      )}
-                    </Fragment>
-                  ))}
-                </div>
+              <div className={classes.bottomRow}>
+                {[1, 2, 3,].map(key => (
+                  <Fragment>
+                    {beers && (
+                      <ItemBeerSimple beer={beers[this.getRandomInt(0, beers.length - 1)]} />
+                    )}
+                  </Fragment>
+                ))}
+              </div>
               {/* </Scrollbar> */}
 
             </div>
@@ -167,10 +167,11 @@ ResponsiveDialog.propTypes = {
   fullScreen: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = state => ({
-  beers: state.beersState.beers,
-})
+// const mapStateToProps = state => ({
+//   beers: state.beersState.beers,
+// })
 
-export default connect(mapStateToProps)(
-  withStyles(BeerDetailsComponentStyle)(withMobileDialog()(ResponsiveDialog))
-)
+export default withStyles(BeerDetailsComponentStyle)(
+  //  connect(mapStateToProps)(
+  withMobileDialog()(ResponsiveDialog))
+// )
